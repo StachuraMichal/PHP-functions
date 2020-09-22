@@ -1,7 +1,6 @@
 <?php
 function extract_queried($text, $query, $id, $read_more ="", $quotes_per_article = 5)
 {
-    anable_images($text, get_post($id));
     $dom = new DOMDocument();
     $text =str_replace('charset=windows-1250', 'HTML-ENTITIES', $text);
     @$dom->loadHTML($text);
@@ -49,18 +48,14 @@ function extract_queried($text, $query, $id, $read_more ="", $quotes_per_article
         
         $p_html = $dom->saveHTML($p);
         $p_html = add_marks(mb_convert_encoding($p_html, 'HTML-ENTITIES', 'UTF-8'), $query);
-        
         @$read_element->loadHTML($p_html );
         $p_element = $dom->importNode($read_element->getElementsByTagName('p')->item(0), TRUE);
         $divs[0]->appendChild($p_element);
-        $br = $dom->createElement('hr');
-        $br->setAttribute('class', 'search-hr');
-        $divs[0]->appendChild($br);
+        $hr = $dom->createElement('hr');
+        $hr->setAttribute('class', 'search-hr');
+        $divs[0]->appendChild($hr);
     }
 
- //   $text = $dom->saveHTML($dom->documentElement);
-   // @$dom->loadHTML($text);
- //  print_r($divs[0]);
     if($dom->getElementsByTagName('p')) add_readmore($dom, $id, $read_more);
     $result = $dom->saveHTML($dom->documentElement);
 

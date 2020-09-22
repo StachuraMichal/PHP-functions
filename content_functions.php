@@ -1,5 +1,5 @@
 <?php
-//function 
+
 function chop_content($string, $post, $read_more = "", $mun_par = 12){
    
     $dom = new DOMDocument();
@@ -58,17 +58,18 @@ function chop_content($string, $post, $read_more = "", $mun_par = 12){
     foreach($nodesToDelete as $node)
         $node->parentNode->removeChild($node);
     
-    add_readmore($dom, $post->ID, $read_more);
+    add_readmore($dom, $post->ID);
     $result = $dom->saveHTML($dom->documentElement);
     return $result;  
 }
 
 
 
-function add_readmore(&$dom, $id,  $read_more){
+function add_readmore(&$dom, $id,  $read_more = ""){
     if ($read_more == "") 
         $read_more = "<a class='readmore' href=". get_the_permalink( $id). '>Czytaj dalej <i class="fas fa-arrow-right"></i></a>';
-        
+    else
+        $read_more = "<a class='readmore' href=". get_the_permalink( $id). '>'.$read_more.' <i class="fas fa-arrow-right"></i></a>';
     $read_element = new DOMDocument();
     @$read_element->loadHTML($read_more);
 
